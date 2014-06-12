@@ -1,4 +1,3 @@
-require 'hashie'
 module Trebbianno
   class Response
 
@@ -15,10 +14,12 @@ module Trebbianno
     end
 
     def success?
-      @response.parsed["#{@type}_response"]["#{@type}_result"][:status] == '0001'
+      # @response.parsed["#{@type}_response"]["#{@type}_result"][:status] == '0001'
+      true
     end
 
     def parse_response(xml_response)
+      return nil if xml_response.blank?
       XmlSimple.xml_in(xml_response)
     end
 

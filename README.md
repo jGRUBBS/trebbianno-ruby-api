@@ -21,48 +21,31 @@ Or install it yourself as:
 
 ## Usage
 
+Send order request
+
 ```ruby
 
 order = {
-  carrier: "FEDEX",
-  billing_address:  { 
-    first_name: "John",
-    last_name:  "Smith",
-    address1:   "123 Here Now",
-    address2:   "2nd Floor",
-    address3:   "",
-    city:       "New York",
-    state:      "New York",
-    country:    "US",
-    zipcode:    "10012",
-    phone:      "123-123-1234"
-  },
   shipping_address: {
     first_name: "John",
     last_name:  "Smith",
     address1:   "123 Here Now",
     address2:   "2nd Floor",
-    address3:   "",
     city:       "New York",
-    state:      "New York",
     country:    "US",
     zipcode:    "10012",
     phone:      "123-123-1234"
   },
-  gift_wrap:    "true",
-  gift_message: "Happy Birthday!",
-  email:        "someone@somehwere.com",
   number:       "R123123123",
-  type:         "OO",
   line_items: [
     {
       price:    "127.23",
       quantity: "1",
-      sku:      "123332211",
-      size:     "XS"
+      sku:      "123332211"
     }
   ],
-  shipping_code: "90",
+  shipping_method: "UPS 1-Day",
+  shipping_cost:   "20.00",
   invoice_url:   "http://example.com/R123123123/invoice"
 }
 
@@ -73,6 +56,19 @@ if response.success?
   # DO SOMETHING
 else
   # QUEUE REQUEST, STORE AND RAISE ERRORS
+end
+
+```
+
+Get inventory
+
+```ruby
+
+client    = Trebbianno::Client.new("username", "password")
+inventory = client.get_inventory
+
+inventory.each do |stock|
+  ...
 end
 
 ```
