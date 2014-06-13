@@ -7,13 +7,13 @@ module Trebbianno
       construct_xml "order" do |xml|
 
         address = order[:shipping_address]
-        xml.ordernumber     order[:number]
         xml.name            "#{address[:first_name]} #{address[:last_name]}"
+        build_address xml, address
         xml.customerref     order[:number]
         xml.freightcharge   order[:shipping_cost]
+        xml.ordernumber     order[:number]
         xml.shipping_method order[:shipping_method]
 
-        build_address xml, address
         build_line_items xml, order
 
       end
