@@ -11,8 +11,7 @@ module Trebbianno
       @client.type = type
       xml = ::Builder::XmlMarkup.new :indent => 2
       xml.instruct! :xml, :version=>"1.0", :encoding=>"UTF-8"
-      xml.tag! type do          
-        build_user xml
+      xml.tag! type do
         yield(xml) if block_given?
       end
       xml.target!

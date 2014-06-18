@@ -4,17 +4,24 @@ module Trebbianno
     PATH = "/Order"
 
     def build_order_request(order)
-      construct_xml "order" do |xml|
+      construct_xml "orders" do |xml|
 
-        address = order[:shipping_address]
-        xml.name            "#{address[:first_name]} #{address[:last_name]}"
-        build_address xml, address
-        xml.customerref     order[:number]
-        xml.freightcharge   order[:shipping_cost]
-        xml.ordernumber     order[:number]
-        xml.shipping_method order[:shipping_method]
+        xml.order do
+          
+          build_user xml
 
-        build_line_items xml, order
+          address = order[:shipping_address]
+          xml.name            "#{address[:first_name]} #{address[:last_name]}"
+          build_address xml, address
+          xml.customerref     order[:number]
+          xml.orderdate       order[:date]
+          xml.freightcharge   order[:shipping_cost]
+          xml.ordernumber     order[:number]
+          xml.shipping_method order[:shipping_method]
+
+          build_line_items xml, order
+
+        end
 
       end
     end
@@ -25,8 +32,9 @@ module Trebbianno
       xml.addressline1 address[:address1]
       xml.addressline2 address[:address2]
       xml.towncity     address[:city]
+      xml.state        State.map(address[:state])
       xml.postcode     address[:zipcode]
-      xml.country      address[:country]
+      xml.country      Country.map(address[:country])
       xml.contactphone address[:phone]
     end
 

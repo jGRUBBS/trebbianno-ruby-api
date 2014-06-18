@@ -32,11 +32,13 @@ order = {
     address1:   "123 Here Now",
     address2:   "2nd Floor",
     city:       "New York",
+    state:      "NY",
     country:    "US",
     zipcode:    "10012",
     phone:      "123-123-1234"
   },
   number:       "R123123123",
+  orderdate:    "2014-06-16",
   line_items: [
     {
       price:    "127.23",
