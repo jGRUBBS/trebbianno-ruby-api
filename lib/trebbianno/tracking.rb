@@ -10,15 +10,14 @@ module Trebbianno
     def initialize(carrier, tracking_number)
       @carrier         = carrier
       @tracking_number = tracking_number
-      url
     end
 
-    def carrier_url
+    def carrier_destination
       self.class.const_get(carrier.upcase)
     end
 
     def url
-      carrier_url.gsub(':tracking_number', @tracking_number)
+      carrier_destination.gsub(':tracking_number', @tracking_number)
     end
 
   end
