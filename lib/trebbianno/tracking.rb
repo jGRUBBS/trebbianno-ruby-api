@@ -5,7 +5,7 @@ module Trebbianno
 
     FEDEX = "http://printtracking.fedex.com/trackOrder.do?gtns=:tracking_number"
     USPS  = "https://tools.usps.com/go/TrackConfirmAction.action?tLabels=:tracking_number"
-    UPS   = "http://wwwapps.ups.com/WebTracking/track?trackNums=123412341234&track.x=Track"
+    UPS   = "http://wwwapps.ups.com/WebTracking/track?trackNums=:tracking_number&track.x=Track"
 
     def initialize(carrier, tracking_number)
       @carrier         = carrier
