@@ -103,7 +103,7 @@ module Trebbianno
     def map_results(results)
       results = flatten_results(results)
       results.map do |h|
-        h.inject({ }) { |x, (k,v)| x[map_keys(k)] = v; x }
+        h = h.inject({ }) { |x, (k,v)| x[map_keys(k)] = v; x }
       end
     end
 
