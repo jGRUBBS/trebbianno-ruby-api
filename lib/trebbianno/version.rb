@@ -1,3 +1,3 @@
 module Trebbianno
-  VERSION = "0.0.2.1jb"
+  VERSION = "0.0.3"
 end
