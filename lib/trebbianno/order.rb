@@ -18,6 +18,7 @@ module Trebbianno
           xml.freightcharge   order[:shipping_cost]
           xml.ordernumber     order[:number]
           xml.shipping_method order[:shipping_method]
+          xml.tax             order[:tax]
 
           build_line_items xml, order
 
