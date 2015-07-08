@@ -15,7 +15,7 @@ module Trebbianno
           build_address xml, address
           xml.customerref     order[:number]
           xml.orderdate       order[:date]
-          xml.freightcharge   order[:shipping_cost]
+          xml.freightcharge   freight_charge(order)
           xml.ordernumber     order[:number]
           xml.shipping_method order[:shipping_method]
           xml.tax             order[:tax]
@@ -28,6 +28,10 @@ module Trebbianno
     end
 
     private
+
+    def freight_charge(order)
+      order[:shipping_cost] - order[:shipping_discount].abs
+    end
 
     def build_address(xml, address)
       xml.addressline1 address[:address1]
@@ -45,9 +49,13 @@ module Trebbianno
           xml.ordernumber order[:number]
           xml.sku         line_item[:sku]
           xml.qty         line_item[:quantity]
-          xml.unitprice   line_item[:price]
+          xml.unitprice   line_item[:price] - line_item_discount(order)
         end
       end
+    end
+
+    def line_item_discount(order)
+      order[:item_discount].abs / order[:line_items].count
     end
 
   end
