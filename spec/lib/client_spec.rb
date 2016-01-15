@@ -1,15 +1,13 @@
 require 'spec_helper'
 
 describe Trebbianno::Client do
-  before do
-    @client = Trebbianno::Client.new("the_username", "the_password")
-  end
+    let(:client) { Trebbianno::Client.new("the_username", "the_password") }
 
   describe '#send_order_request' do
     it 'should send order request and return parsed respose' do
       Trebbianno::Order.any_instance.should_receive(:build_order_request).with(order_hash)
-      @client.should_receive(:post)
-      @client.send_order_request(order_hash)
+      expect(client).to receive(:post)
+      client.send_order_request(order_hash)
     end
   end
 
@@ -25,32 +23,34 @@ describe Trebbianno::Client do
 
   describe 'private#default_options' do
     it 'should return a hash' do
-      @client.send(:default_options).should be_a Hash
+      expect(client.send(:default_options)).to be_a Hash
     end
   end
 
   describe 'private#testing?' do
     it 'should return boolean for test mode' do
-      @client.send(:testing?).should be false
-      @client.instance_variable_set(:@options, { test_mode: true })
-      @client.send(:testing?).should be true
+      expect(client.send(:testing?)).to eq false
+
+      client.instance_variable_set(:@options, { test_mode: true })
+      expect(client.send(:testing?)).to eq  true
     end
   end
 
   describe 'private#verbose?' do
     it 'should return boolean for verbose mode' do
-      @client.send(:verbose?).should be true
-      @client.instance_variable_set(:@options, { verbose: false })
-      @client.send(:verbose?).should be false
+      expect(client.send(:verbose?)).to eq true
+
+      client.instance_variable_set(:@options, { verbose: false })
+      expect(client.send(:verbose?)).to eq  false
     end
   end
 
   describe 'private#host' do
     it 'should' do
-      @client.stub(:testing?).and_return(false)
-      @client.send(:host).should == Trebbianno::Client::LIVE_HOST
-      @client.stub(:testing?).and_return(true)
-      @client.send(:host).should == Trebbianno::Client::TEST_HOST
+      client.stub(:testing?).and_return(false)
+      expect(client.send(:host)).to eq Trebbianno::Client::LIVE_HOST
+      client.stub(:testing?).and_return(true)
+      expect(client.send(:host)).to eq Trebbianno::Client::TEST_HOST
     end
   end
 
@@ -58,16 +58,16 @@ describe Trebbianno::Client do
   describe 'private#log' do
     context 'not in verbose mode' do
       it 'should not log message' do
-        @client.stub(:verbose?).and_return(false)
-        @client.should_not_receive(:puts)
-        @client.send(:log, "message")
+        client.stub(:verbose?).and_return(false)
+        expect(client).not_to receive(:puts)
+        client.send(:log, "message")
       end
     end
     context 'in verbose mode' do
       it 'should' do
-        @client.stub(:verbose?).and_return(true)
-        @client.should_receive(:puts).with("message")
-        @client.send(:log, "message")
+        client.stub(:verbose?).and_return(true)
+        expect(client).to receive(:puts).with("message")
+        client.send(:log, "message")
       end
     end
   end

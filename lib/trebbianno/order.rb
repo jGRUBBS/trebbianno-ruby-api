@@ -34,13 +34,15 @@ module Trebbianno
     end
 
     def build_address(xml, address)
-      xml.addressline1 address[:address1]
-      xml.addressline2 address[:address2]
-      xml.towncity     address[:city]
-      xml.state        State.map(address[:state])
-      xml.postcode     address[:zipcode]
-      xml.country      Country.map(address[:country])
-      xml.contactphone address[:phone]
+      construct_xml "orders" do |xml|
+        xml.addressline1 address[:address1]
+        xml.addressline2 address[:address2]
+        xml.towncity     address[:city]
+        xml.state        State.map(address[:state])
+        xml.postcode     address[:zipcode]
+        xml.country      Country.map(address[:country])
+        xml.contactphone address[:phone]
+      end
     end
 
     def build_line_items(xml, order)
@@ -49,14 +51,19 @@ module Trebbianno
           xml.ordernumber order[:number]
           xml.sku         line_item[:sku]
           xml.qty         line_item[:quantity]
-          xml.unitprice   (line_item[:price] - line_item_discount(line_item[:price], order))
+          xml.unitprice   (line_item[:price] - line_item_discount(line_item[:price], order)).round(2)
         end
       end
     end
 
+    def discount_percent(order)
+      order[:item_discount].to_f / order[:line_items].inject(0) {|sum, hash| sum + hash[:price]}
+    end
+
     def line_item_discount(item_price, order)
-      (item_price * order[:item_discount].to_f / 100).round(2)
+      (item_price * discount_percent(order)).round(2)
     end
 
   end
 end
+

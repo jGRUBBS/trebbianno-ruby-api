@@ -30,12 +30,14 @@ def fixture(type)
 end
 
 def test_line_items_string(order)
-  [{
-    :price=> order[:line_items].first[:price], 
-    :quantity=>order[:line_items].first[:quantity], 
-    :sku=>order[:line_items].first[:sku], 
-    :size=>order[:line_items].first[:size]
-  }]
+  [].tap do |arr| 
+    order[:line_items].each do |hash| 
+      arr << { price: hash[:price], 
+               quantity: hash[:quantity], 
+               sku: hash[:sku], 
+               size: hash[:size]} 
+     end
+  end
 end
 
 def order_hash
@@ -78,9 +80,15 @@ def order_hash
   date: '01-01-2016',
   line_items: [
     {
-      price:    127.23,
+      price:    100,
       quantity: "1",
       sku:      "123332211",
+      size:     "XS"
+    },
+    {
+      price:    200,
+      quantity: "1",
+      sku:      "123332212",
       size:     "XS"
     }
   ],
