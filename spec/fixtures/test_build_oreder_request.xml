@@ -4,6 +4,13 @@
     <user>the_username</user>
     <password>the_password</password>
     <name>John Smith</name>
+    <addressline1>123 Here Now</addressline1>
+    <addressline2>2nd Floor</addressline2>
+    <towncity>New York</towncity>
+    <state>NY</state>
+    <postcode>10012</postcode>
+    <country>US</country>
+    <contactphone>123-123-1234</contactphone>
     <customerref>R123123123</customerref>
     <orderdate>01-01-2016</orderdate>
     <freightcharge>30</freightcharge>

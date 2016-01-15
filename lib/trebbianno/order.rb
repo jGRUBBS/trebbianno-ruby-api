@@ -34,15 +34,13 @@ module Trebbianno
     end
 
     def build_address(xml, address)
-      construct_xml "orders" do |xml|
-        xml.addressline1 address[:address1]
-        xml.addressline2 address[:address2]
-        xml.towncity     address[:city]
-        xml.state        State.map(address[:state])
-        xml.postcode     address[:zipcode]
-        xml.country      Country.map(address[:country])
-        xml.contactphone address[:phone]
-      end
+      xml.addressline1 address[:address1]
+      xml.addressline2 address[:address2]
+      xml.towncity     address[:city]
+      xml.state        State.map(address[:state])
+      xml.postcode     address[:zipcode]
+      xml.country      Country.map(address[:country])
+      xml.contactphone address[:phone]
     end
 
     def build_line_items(xml, order)
