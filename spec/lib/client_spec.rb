@@ -13,6 +13,16 @@ describe Trebbianno::Client do
     end
   end
 
+  # describe '#get_inventory' do
+  #   it 'should send inventory to client' do
+  #     request = Trebbianno::Inventory.should_receive(:build_inventory_request)
+  #      result = @client.stub_chain(:post, :response).with(request).with(['stock'])
+  #      @client = @client.should_receive(:map_results).with(result)
+  #      @client.get_inventory
+
+  #   end
+  # end
+
   describe 'private#default_options' do
     it 'should return a hash' do
       @client.send(:default_options).should be_a Hash
@@ -21,17 +31,17 @@ describe Trebbianno::Client do
 
   describe 'private#testing?' do
     it 'should return boolean for test mode' do
-      @client.send(:testing?).should be_false
+      @client.send(:testing?).should be false
       @client.instance_variable_set(:@options, { test_mode: true })
-      @client.send(:testing?).should be_true
+      @client.send(:testing?).should be true
     end
   end
 
   describe 'private#verbose?' do
     it 'should return boolean for verbose mode' do
-      @client.send(:verbose?).should be_true
+      @client.send(:verbose?).should be true
       @client.instance_variable_set(:@options, { verbose: false })
-      @client.send(:verbose?).should be_false
+      @client.send(:verbose?).should be false
     end
   end
 
@@ -44,14 +54,6 @@ describe Trebbianno::Client do
     end
   end
 
-  describe 'private#path' do
-    it 'should' do
-      @client.stub(:testing?).and_return(false)
-      @client.send(:path).should == Trebbianno::Client::LIVE_PATH
-      @client.stub(:testing?).and_return(true)
-      @client.send(:path).should == Trebbianno::Client::TEST_PATH
-    end
-  end
 
   describe 'private#log' do
     context 'not in verbose mode' do
@@ -69,27 +71,4 @@ describe Trebbianno::Client do
       end
     end
   end
-
-  describe 'private#post' do
-    it 'should use net http to post xml request' do
-      path        = @client.send(:path)
-      xml_request = "xml_request"
-      response    = Trebbianno::Response.new("<xml>body</xml>", "new_request")
-      header      = {'Content-Type' => 'text/xml'}
-      Net::HTTP.any_instance.should_receive(:post).with(path, xml_request, header).and_return(response)
-      @client.should_receive(:parse_response).with(response, nil)
-      @client.should_receive(:log).with(response)
-      @client.send(:post, xml_request)
-    end
-  end
-
-  describe 'private#parse_response' do
-    it 'should use xml simple to parse the response' do
-      xml_response = "xml_response"
-      XmlSimple.should_receive(:xml_in).with(xml_response)
-      response = @client.send(:parse_response, xml_response)
-      response.should be_a Trebbianno::Response
-    end
-  end
-
 end

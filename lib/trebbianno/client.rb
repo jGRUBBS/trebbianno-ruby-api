@@ -27,9 +27,16 @@ module Trebbianno
     end
 
     def get_inventory
-      request = Inventory.new(self).build_inventory_request
-      @path   = Inventory::PATH
-      map_results(post(request).response['stock'])
+      request   = Inventory.new(self).build_inventory_request
+      @path     = Inventory::PATH
+      response1 = map_results(post(request).response['stock'])
+      @port     = 4082
+      response2 = map_results(post(request).response['stock'])
+      response1.merge(response2)
+    end
+
+    def port
+      @port || PORT
     end
 
     def order_request(order)
@@ -50,7 +57,7 @@ module Trebbianno
     end
 
     def request_uri
-      "http://#{host}:#{PORT}#{@path}"
+      "http://#{host}:#{port}#{@path}"
     end
 
     private

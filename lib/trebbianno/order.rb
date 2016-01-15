@@ -19,12 +19,12 @@ module Trebbianno
           xml.ordernumber     order[:number]
           xml.shipping_method order[:shipping_method]
           xml.tax             order[:tax]
-
           build_line_items xml, order
 
         end
 
       end
+
     end
 
     private
@@ -49,13 +49,13 @@ module Trebbianno
           xml.ordernumber order[:number]
           xml.sku         line_item[:sku]
           xml.qty         line_item[:quantity]
-          xml.unitprice   line_item[:price] - line_item_discount(order)
+          xml.unitprice   (line_item[:price] - line_item_discount(line_item[:price], order))
         end
       end
     end
 
-    def line_item_discount(order)
-      order[:item_discount].abs / order[:line_items].count
+    def line_item_discount(item_price, order)
+      (item_price * order[:item_discount].to_f / 100).round(2)
     end
 
   end
