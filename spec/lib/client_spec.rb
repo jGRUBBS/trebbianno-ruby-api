@@ -1,95 +1,94 @@
 require 'spec_helper'
 
 describe Trebbianno::Client do
-  before do
-    @client = Trebbianno::Client.new("the_username", "the_password")
-  end
+    let(:client) { Trebbianno::Client.new("the_username", "the_password") }
 
   describe '#send_order_request' do
     it 'should send order request and return parsed respose' do
       Trebbianno::Order.any_instance.should_receive(:build_order_request).with(order_hash)
-      @client.should_receive(:post)
-      @client.send_order_request(order_hash)
+      expect(client).to receive(:post)
+      client.send_order_request(order_hash)
+    end
+  end
+
+  describe '#get_inventory' do
+
+    let(:expected_result) do
+      [
+        {"upc"=>"840258104705", "qty"=>"4"},
+        {"upc"=>"840258104712", "qty"=>"17"},
+        {"upc"=>"840258104729", "qty"=>"17"},
+        {"upc"=>"840258101001", "qty"=>"4"},
+        {"upc"=>"840258101002", "qty"=>"17"},
+        {"upc"=>"840258101003", "qty"=>"17"}
+      ]
+    end
+
+    let(:inventory_one) { read_xml(:inventory_fixture_1) }
+    let(:inventory_two) { read_xml(:inventory_fixture_2) }
+
+    before do
+      stub_request(:post, "http://the_username:the_password@54.235.241.72:4081/Inventory").
+        with(body: inventory_request, headers: request_headers).
+        to_return(status: 200, body: inventory_one, headers: {})
+      stub_request(:post, "http://the_username:the_password@54.235.241.72:4082/Inventory").
+        with(body: inventory_request, headers: request_headers).
+        to_return(status: 200, body: inventory_two, headers: {})
+    end
+
+    it 'should send inventory to client', focus: true do
+      expect(client.get_inventory).to eq(expected_result)
     end
   end
 
   describe 'private#default_options' do
     it 'should return a hash' do
-      @client.send(:default_options).should be_a Hash
+      expect(client.send(:default_options)).to be_a Hash
     end
   end
 
   describe 'private#testing?' do
     it 'should return boolean for test mode' do
-      @client.send(:testing?).should be_false
-      @client.instance_variable_set(:@options, { test_mode: true })
-      @client.send(:testing?).should be_true
+      expect(client.send(:testing?)).to eq false
+
+      client.instance_variable_set(:@options, { test_mode: true })
+      expect(client.send(:testing?)).to eq  true
     end
   end
 
   describe 'private#verbose?' do
     it 'should return boolean for verbose mode' do
-      @client.send(:verbose?).should be_true
-      @client.instance_variable_set(:@options, { verbose: false })
-      @client.send(:verbose?).should be_false
+      expect(client.send(:verbose?)).to eq true
+
+      client.instance_variable_set(:@options, { verbose: false })
+      expect(client.send(:verbose?)).to eq  false
     end
   end
 
   describe 'private#host' do
     it 'should' do
-      @client.stub(:testing?).and_return(false)
-      @client.send(:host).should == Trebbianno::Client::LIVE_HOST
-      @client.stub(:testing?).and_return(true)
-      @client.send(:host).should == Trebbianno::Client::TEST_HOST
+      client.stub(:testing?).and_return(false)
+      expect(client.send(:host)).to eq Trebbianno::Client::LIVE_HOST
+      client.stub(:testing?).and_return(true)
+      expect(client.send(:host)).to eq Trebbianno::Client::TEST_HOST
     end
   end
 
-  describe 'private#path' do
-    it 'should' do
-      @client.stub(:testing?).and_return(false)
-      @client.send(:path).should == Trebbianno::Client::LIVE_PATH
-      @client.stub(:testing?).and_return(true)
-      @client.send(:path).should == Trebbianno::Client::TEST_PATH
-    end
-  end
 
   describe 'private#log' do
     context 'not in verbose mode' do
       it 'should not log message' do
-        @client.stub(:verbose?).and_return(false)
-        @client.should_not_receive(:puts)
-        @client.send(:log, "message")
+        client.stub(:verbose?).and_return(false)
+        expect(client).not_to receive(:puts)
+        client.send(:log, "message")
       end
     end
     context 'in verbose mode' do
       it 'should' do
-        @client.stub(:verbose?).and_return(true)
-        @client.should_receive(:puts).with("message")
-        @client.send(:log, "message")
+        client.stub(:verbose?).and_return(true)
+        expect(client).to receive(:puts).with("message")
+        client.send(:log, "message")
       end
     end
   end
-
-  describe 'private#post' do
-    it 'should use net http to post xml request' do
-      path        = @client.send(:path)
-      xml_request = "xml_request"
-      response    = Trebbianno::Response.new("<xml>body</xml>", "new_request")
-      header      = {'Content-Type' => 'text/xml'}
-      Net::HTTP.any_instance.should_receive(:post).with(path, xml_request, header).and_return(response)
-      @client.should_receive(:parse_response).with(response, nil)
-      @client.should_receive(:log).with(response)
-      @client.send(:post, xml_request)
-    end
-  end
-
-  describe 'private#parse_response' do
-    it 'should use xml simple to parse the response' do
-      xml_response = "xml_response"
-      XmlSimple.should_receive(:xml_in).with(xml_response)
-      response = @client.send(:parse_response, xml_response)
-      response.should be_a Trebbianno::Response
-    end
-  end
-
 end

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<orders>
+  <order>
+    <user>the_username</user>
+    <password>the_password</password>
+    <name>John Smith</name>
+    <addressline1>123 Here Now</addressline1>
+    <addressline2>2nd Floor</addressline2>
+    <towncity>New York</towncity>
+    <state>NY</state>
+    <postcode>10012</postcode>
+    <country>US</country>
+    <contactphone>123-123-1234</contactphone>
+    <customerref>R123123123</customerref>
+    <orderdate>01-01-2016</orderdate>
+    <freightcharge>30</freightcharge>
+    <ordernumber>R123123123</ordernumber>
+    <shipping_method>UPS AIR</shipping_method>
+    <tax>20</tax>
+    <orderline>
+      <ordernumber>R123123123</ordernumber>
+      <sku>123332211</sku>
+      <qty>1</qty>
+      <unitprice>86.67</unitprice>
+    </orderline>
+    <orderline>
+      <ordernumber>R123123123</ordernumber>
+      <sku>123332212</sku>
+      <qty>1</qty>
+      <unitprice>173.33</unitprice>
+    </orderline>
+  </order>
+</orders>

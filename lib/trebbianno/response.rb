@@ -19,7 +19,7 @@ module Trebbianno
     end
 
     def parse_response(xml_response)
-      return nil if xml_response.blank?
+      return nil if xml_response.nil? || xml_response == ""
       XmlSimple.xml_in(xml_response)
     end
 
