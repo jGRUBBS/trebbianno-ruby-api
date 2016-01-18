@@ -40,6 +40,14 @@ def test_line_items_string(order)
   end
 end
 
+def request_headers
+  {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Content-Type'=>'text/xml', 'User-Agent'=>'Ruby'}
+end
+
+def inventory_request
+  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<stock>\n</stock>\n"
+end
+
 def order_hash
 {
   carrier: "FEDEX",

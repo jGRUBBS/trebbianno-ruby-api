@@ -32,7 +32,7 @@ module Trebbianno
       response1 = map_results(post(request).response['stock'])
       @port     = 4082
       response2 = map_results(post(request).response['stock'])
-      response1.merge(response2)
+      response1.concat(response2)
     end
 
     def port
@@ -86,7 +86,7 @@ module Trebbianno
     end
 
     def http
-      Net::HTTP.new(host, PORT)
+      Net::HTTP.new(host, port)
     end
 
     def request(xml_request)
@@ -115,7 +115,7 @@ module Trebbianno
     end
 
     def flatten_results(results)
-      @flattened ||= results.map do |h| 
+      results.map do |h| 
         h.each { |k,v| h[k] = v[0] }
       end
     end

@@ -11,15 +11,35 @@ describe Trebbianno::Client do
     end
   end
 
-  # describe '#get_inventory' do
-  #   it 'should send inventory to client' do
-  #     request = Trebbianno::Inventory.should_receive(:build_inventory_request)
-  #      result = @client.stub_chain(:post, :response).with(request).with(['stock'])
-  #      @client = @client.should_receive(:map_results).with(result)
-  #      @client.get_inventory
+  describe '#get_inventory' do
 
-  #   end
-  # end
+    let(:expected_result) do
+      [
+        {"upc"=>"840258104705", "qty"=>"4"},
+        {"upc"=>"840258104712", "qty"=>"17"},
+        {"upc"=>"840258104729", "qty"=>"17"},
+        {"upc"=>"840258101001", "qty"=>"4"},
+        {"upc"=>"840258101002", "qty"=>"17"},
+        {"upc"=>"840258101003", "qty"=>"17"}
+      ]
+    end
+
+    let(:inventory_one) { read_xml(:inventory_fixture_1) }
+    let(:inventory_two) { read_xml(:inventory_fixture_2) }
+
+    before do
+      stub_request(:post, "http://the_username:the_password@54.235.241.72:4081/Inventory").
+        with(body: inventory_request, headers: request_headers).
+        to_return(status: 200, body: inventory_one, headers: {})
+      stub_request(:post, "http://the_username:the_password@54.235.241.72:4082/Inventory").
+        with(body: inventory_request, headers: request_headers).
+        to_return(status: 200, body: inventory_two, headers: {})
+    end
+
+    it 'should send inventory to client', focus: true do
+      expect(client.get_inventory).to eq(expected_result)
+    end
+  end
 
   describe 'private#default_options' do
     it 'should return a hash' do
