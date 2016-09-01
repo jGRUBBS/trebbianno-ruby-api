@@ -45,7 +45,7 @@ module Trebbianno
       'SA' => 'SD',  # SAUDI ARABIA
       'BH' => 'BA',  # BAHRAIN
       'HN' => 'HO',  # HONDURAS
-      'CA' => 'CA',  # CANADA 
+      'CA' => 'CA',  # CANADA
       'JP' => 'JP',  # JAPAN
       'KW' => 'KU',  # KUWAIT
       'LB' => 'LB',  # LEBANON
@@ -83,7 +83,6 @@ module Trebbianno
       'FR' => 'FR',  # FRANCE
       'GB' => 'UK',  # UNITED KINGDOM
       'AR' => 'AR',  # ARGENTINA
-      'GT' => 'GT',  # GUATEMALA
       'SV' => 'EL',  # EL SALVADOR
       'KR' => 'SK',  # SOUTH KOREA - REPUBLIC OF KOREA
       'IE' => 'IRL', # IRELAND

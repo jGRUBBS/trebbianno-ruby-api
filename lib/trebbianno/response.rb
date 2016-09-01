@@ -19,7 +19,8 @@ module Trebbianno
     end
 
     def parse_response(xml_response)
-      return nil if xml_response.blank?
+      blank = xml_response.respond_to?(:empty?) ? !!xml_response.empty? : !xml_response
+      return nil if blank
       XmlSimple.xml_in(xml_response)
     end
 
