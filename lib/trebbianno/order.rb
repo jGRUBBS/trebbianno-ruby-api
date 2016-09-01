@@ -7,7 +7,7 @@ module Trebbianno
       construct_xml "orders" do |xml|
 
         xml.order do
-          
+
           build_user xml
 
           address = order[:shipping_address]
@@ -49,13 +49,31 @@ module Trebbianno
           xml.ordernumber order[:number]
           xml.sku         line_item[:sku]
           xml.qty         line_item[:quantity]
-          xml.unitprice   line_item[:price] - line_item_discount(order)
+          xml.unitprice   unit_price(line_item, order)
         end
       end
     end
 
-    def line_item_discount(order)
-      order[:item_discount].abs / order[:line_items].count
+    def unit_price(line_item, order)
+      adjusted_price(line_item, order).round(2)
+    end
+
+    def adjusted_price(line_item, order)
+      line_item[:price] - line_item_discount(line_item[:price], order)
+    end
+
+    def line_item_discount(item_price, order)
+      (item_price * discount_percent(order)).round(2)
+    end
+
+    def discount_percent(order)
+      order[:item_discount].to_f / line_item_count(order)
+    end
+
+    def line_item_count(order)
+      order[:line_items].inject(0) do |sum, hash|
+        sum + hash[:price]
+      end
     end
 
   end

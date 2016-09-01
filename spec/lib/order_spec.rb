@@ -39,10 +39,10 @@ describe Trebbianno::Order do
   end
 
   describe 'private#line_item_discount' do
-    let(:discount) {[20, 20]}
+    let(:discount) {[13.33, 26.67]}
     it 'should calculate discount price for line item' do
       order_hash[:line_items].each_with_index  do |item, index|
-        discount_amount = order_client.send(:line_item_discount, order_hash)
+        discount_amount = order_client.send(:line_item_discount, item[:price], order_hash)
         expect(discount_amount).to eq  discount[index]
       end
     end

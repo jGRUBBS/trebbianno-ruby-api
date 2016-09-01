@@ -21,13 +21,13 @@
       <ordernumber>R123123123</ordernumber>
       <sku>123332211</sku>
       <qty>1</qty>
-      <unitprice>80</unitprice>
+      <unitprice>86.67</unitprice>
     </orderline>
     <orderline>
       <ordernumber>R123123123</ordernumber>
       <sku>123332212</sku>
       <qty>1</qty>
-      <unitprice>180</unitprice>
+      <unitprice>173.33</unitprice>
     </orderline>
   </order>
 </orders>
