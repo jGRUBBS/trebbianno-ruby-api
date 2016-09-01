@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<stocklines>
+ <stock>
+  <stockid>840258101001</stockid>
+  <qty>4</qty>
+ </stock>
+ <stock>
+  <stockid>840258101002</stockid>
+  <qty>17</qty>
+ </stock>
+ <stock>
+  <stockid>840258101003</stockid>
+  <qty>17</qty>
+ </stock>
+</stocklines>
