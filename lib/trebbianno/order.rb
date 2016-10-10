@@ -67,7 +67,7 @@ module Trebbianno
     end
 
     def discount_percent(order)
-      order[:item_discount].to_f / line_item_count(order)
+      order[:item_discount].to_f.abs / line_item_count(order)
     end
 
     def line_item_count(order)

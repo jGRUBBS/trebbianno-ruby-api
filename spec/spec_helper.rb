@@ -30,12 +30,12 @@ def fixture(type)
 end
 
 def test_line_items_string(order)
-  [].tap do |arr| 
-    order[:line_items].each do |hash| 
-      arr << { price: hash[:price], 
-               quantity: hash[:quantity], 
-               sku: hash[:sku], 
-               size: hash[:size]} 
+  [].tap do |arr|
+    order[:line_items].each do |hash|
+      arr << { price: hash[:price],
+               quantity: hash[:quantity],
+               sku: hash[:sku],
+               size: hash[:size]}
      end
   end
 end
@@ -51,7 +51,7 @@ end
 def order_hash
 {
   carrier: "FEDEX",
-  billing_address:  { 
+  billing_address:  {
     first_name: "John",
     last_name:  "Smith",
     address1:   "123 Here Now",
@@ -80,7 +80,7 @@ def order_hash
   email:        "someone@somehwere.com",
   number:       "R123123123",
   type:         "OO",
-  item_discount: 40,
+  item_discount: -40,
   shipping_cost: 30,
   shipping_discount: 0,
   tax: 20,
