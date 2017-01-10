@@ -89,7 +89,7 @@ def order_hash
   line_items: [
     {
       price:    100,
-      quantity: "1",
+      quantity: "2",
       sku:      "123332211",
       size:     "XS"
     },

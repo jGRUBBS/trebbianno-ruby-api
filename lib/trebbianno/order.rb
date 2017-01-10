@@ -72,7 +72,7 @@ module Trebbianno
 
     def line_item_count(order)
       order[:line_items].inject(0) do |sum, hash|
-        sum + hash[:price]
+        sum + (hash[:price] * hash[:quantity].to_i)
       end
     end
 
