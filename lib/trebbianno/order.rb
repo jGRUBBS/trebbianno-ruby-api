@@ -67,12 +67,12 @@ module Trebbianno
     end
 
     def discount_percent(order)
-      order[:item_discount].to_f.abs / line_item_count(order)
+      order[:item_discount].to_f.abs / line_item_total(order)
     end
 
-    def line_item_count(order)
+    def line_item_total(order)
       order[:line_items].inject(0) do |sum, hash|
-        sum + hash[:price]
+        sum + (hash[:price] * hash[:quantity].to_i)
       end
     end
 
