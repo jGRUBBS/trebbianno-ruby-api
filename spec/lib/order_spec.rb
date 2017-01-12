@@ -48,4 +48,12 @@ describe Trebbianno::Order do
     end
   end
 
+  describe 'private#line_item_total' do
+    let(:total) {400}
+    it 'should calculate total price for line items' do
+      total_amount = order_client.send(:line_item_total, order_hash)
+      expect(total_amount).to eq total
+    end
+  end
+
 end
